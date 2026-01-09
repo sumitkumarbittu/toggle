@@ -1,65 +1,346 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Render Uptime</title>
 
 <style>
-body { background:#0b0f1a; color:white; font-family:Arial; padding:30px; }
-h1 { margin-bottom:10px; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  animation: fadeIn 0.6s ease-out 0.2s both;
+}
+
 button {
-  padding:10px 16px;
-  background:#2563eb;
-  border:none;
-  border-radius:6px;
-  color:white;
-  cursor:pointer;
-  margin-bottom:20px;
+  flex: 1;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.status-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeIn 0.6s ease-out 0.4s both;
+}
+
 .card {
-  background:#12182a;
-  padding:14px;
-  border-radius:8px;
-  margin-bottom:10px;
-  display:flex;
-  justify-content:space-between;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  transition: all 0.3s ease;
+  animation: slideIn 0.4s ease-out;
 }
-.ok { color:#4cff4c; }
-.down { color:#ff4c4c; }
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(148, 163, 184, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.url {
+  font-weight: 500;
+  color: #cbd5e1;
+  word-break: break-all;
+  flex: 1;
+}
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.ok {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.ok::before {
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+}
+
+.down {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.down::before {
+  background: #f87171;
+  box-shadow: 0 0 8px #f87171;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+.spinner {
+  border: 3px solid rgba(148, 163, 184, 0.2);
+  border-top: 3px solid #60a5fa;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+.last-updated {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-top: 20px;
+  animation: fadeIn 0.6s ease-out 0.6s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 16px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .card-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .status-badge {
+    align-self: flex-start;
+  }
+
+  button {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+}
 </style>
 </head>
 
 <body>
-<h1>Render API Uptime</h1>
-<button onclick="refresh()">🔄 Refresh Now</button>
-<div id="list"></div>
+<div class="container">
+  <header>
+    <h1>Render API Uptime</h1>
+    <div class="subtitle">Real-time API status monitoring</div>
+  </header>
+
+  <div class="controls">
+    <button onclick="refresh()" id="refreshBtn">
+      <span>🔄</span>
+      <span>Refresh Now</span>
+    </button>
+  </div>
+
+  <div class="status-grid" id="list">
+    <div class="loading">
+      <div class="spinner"></div>
+      <div>Loading status...</div>
+    </div>
+  </div>
+
+  <div class="last-updated" id="lastUpdated"></div>
+</div>
 
 <script>
 const API_BASE = "https://toggle-1811.onrender.com";
 
+function updateTimestamp() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString();
+  document.getElementById("lastUpdated").textContent = `Last updated: ${timeStr}`;
+}
+
 async function load() {
-  const r = await fetch(API_BASE + "/health");
-  const data = await r.json();
+  try {
+    const r = await fetch(API_BASE + "/health");
+    const data = await r.json();
 
-  const div = document.getElementById("list");
-  div.innerHTML = "";
+    const div = document.getElementById("list");
+    div.innerHTML = "";
 
-  for (const url in data.apis) {
-    const s = data.apis[url];
-    div.innerHTML += `
+    for (const url in data.apis) {
+      const s = data.apis[url];
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-content">
+          <span class="url">${url}</span>
+          <span class="status-badge ${s}">${s}</span>
+        </div>
+      `;
+      div.appendChild(card);
+    }
+
+    updateTimestamp();
+  } catch (error) {
+    document.getElementById("list").innerHTML = `
       <div class="card">
-        <span>${url}</span>
-        <span class="${s}">${s}</span>
+        <div class="card-content">
+          <span class="url">Error loading data</span>
+          <span class="status-badge down">Error</span>
+        </div>
       </div>
     `;
   }
 }
 
 async function refresh() {
-  document.getElementById("list").innerHTML =
-    "<div class='card'>Refreshing...</div>";
+  const btn = document.getElementById("refreshBtn");
+  btn.disabled = true;
+  
+  document.getElementById("list").innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      <div>Refreshing APIs...</div>
+    </div>
+  `;
 
-  await fetch(API_BASE + "/toggle");
-  load();
+  try {
+    await fetch(API_BASE + "/toggle");
+    await load();
+  } catch (error) {
+    console.error('Refresh failed:', error);
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 load();
