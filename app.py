@@ -11,11 +11,11 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 PING_INTERVAL = 10   # minutes
 
 APIs = [
-    "https://payments.onrender.com",
-    "https://sms.onrender.com",
-    "https://email.onrender.com",
-    "https://analytics.onrender.com",
-    "https://reports.onrender.com"
+    "https://toggle-1811.onrender.com",
+    "https://paydriveapi.onrender.com",
+    "https://chat-d8ex.onrender.com",
+    "https://paydrive-analytics.onrender.com",
+    "https://webda.onrender.com"
 ]
 
 LAST_PINGS = {}
