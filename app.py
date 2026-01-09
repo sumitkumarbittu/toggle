@@ -7,6 +7,10 @@ from contextlib import asynccontextmanager
 import logging
 from datetime import datetime
 
+# =========================
+# LOGGING
+# =========================
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -14,19 +18,19 @@ logging.basicConfig(
 
 logging.getLogger("apscheduler").setLevel(logging.INFO)
 
-
 # =========================
 # GLOBAL STATE
 # =========================
 
 PING_INTERVAL = 10   # minutes
 
+# FULL HEALTH URLs (can be /health, /status, etc)
 APIs = [
-    "https://toggle-1811.onrender.com",
-    "https://paydriveapi.onrender.com",
-    "https://chat-d8ex.onrender.com",
-    "https://paydrive-analytics.onrender.com",
-    "https://webda.onrender.com"
+    "https://toggle-1811.onrender.com/health",
+    "https://paydriveapi.onrender.com/health",
+    "https://chat-d8ex.onrender.com/healthz",
+    "https://paydrive-analytics.onrender.com/health",
+    "https://webda.onrender.com/health"
 ]
 
 LAST_PINGS = {}
@@ -39,16 +43,14 @@ async def ping_all():
     print("PING CYCLE @", datetime.utcnow().isoformat())
 
     async with httpx.AsyncClient(timeout=5) as client:
-        for base in APIs:
-            url = base + "/health"
+        for url in APIs:
             try:
                 await client.get(url)
-                LAST_PINGS[base] = "ok"
-                print(" OK  ", base)
+                LAST_PINGS[url] = "ok"
+                print(" OK  ", url)
             except Exception as e:
-                LAST_PINGS[base] = "down"
-                print(" DOWN", base, str(e))
-
+                LAST_PINGS[url] = "down"
+                print(" DOWN", url, str(e))
 
 # =========================
 # SCHEDULER
@@ -68,7 +70,10 @@ async def lifespan(app: FastAPI):
     yield
     scheduler.shutdown()
 
-# ⚠️ DEFINE FASTAPI ONLY ONCE
+# =========================
+# FASTAPI
+# =========================
+
 app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
