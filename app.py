@@ -3,6 +3,7 @@ import httpx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from contextlib import asynccontextmanager
 
 # =========================
 # GLOBAL STATE
@@ -34,10 +35,10 @@ app.add_middleware(
 )
 
 # =========================
-# PING LOOP
+# PING FUNCTION
 # =========================
 
-async def toggle_job():
+async def ping_all():
     async with httpx.AsyncClient(timeout=5) as client:
         for base in APIs:
             url = base + "/health"
@@ -47,25 +48,49 @@ async def toggle_job():
             except:
                 LAST_PINGS[base] = "down"
 
+# =========================
+# SCHEDULER
+# =========================
+
 scheduler = AsyncIOScheduler()
-scheduler.add_job(toggle_job, "interval", minutes=PING_INTERVAL)
-
-@app.on_event("startup")
-def start():
-    scheduler.start()
-
-@app.on_event("shutdown")
-def stop():
-    scheduler.shutdown()
+scheduler.add_job(ping_all, "interval", minutes=PING_INTERVAL)
 
 # =========================
-# ENDPOINT
+# FASTAPI LIFESPAN (THIS FIXES RENDER)
+# =========================
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    scheduler.start()        # always starts
+    await ping_all()         # run once immediately on boot
+    yield
+    scheduler.shutdown()
+
+app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# =========================
+# ENDPOINTS
 # =========================
 
 @app.get("/health")
 def health():
     return {
         "interval_minutes": PING_INTERVAL,
+        "apis": LAST_PINGS
+    }
+
+@app.get("/toggle")
+async def toggle():
+    await ping_all()
+    return {
+        "status": "refreshed",
         "apis": LAST_PINGS
     }
 
