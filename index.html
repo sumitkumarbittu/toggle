@@ -43,11 +43,11 @@ async function load() {
   const div = document.getElementById("list");
   div.innerHTML = "";
 
-  for (const base in data.apis) {
-    const s = data.apis[base];
+  for (const url in data.apis) {
+    const s = data.apis[url];
     div.innerHTML += `
       <div class="card">
-        <span>${base}/health</span>
+        <span>${url}</span>
         <span class="${s}">${s}</span>
       </div>
     `;
