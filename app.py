@@ -4,6 +4,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from contextlib import asynccontextmanager
+import logging
+from datetime import datetime
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+
+logging.getLogger("apscheduler").setLevel(logging.INFO)
+
 
 # =========================
 # GLOBAL STATE
@@ -26,14 +36,19 @@ LAST_PINGS = {}
 # =========================
 
 async def ping_all():
+    print("PING CYCLE @", datetime.utcnow().isoformat())
+
     async with httpx.AsyncClient(timeout=5) as client:
         for base in APIs:
             url = base + "/health"
             try:
                 await client.get(url)
                 LAST_PINGS[base] = "ok"
-            except:
+                print(" OK  ", base)
+            except Exception as e:
                 LAST_PINGS[base] = "down"
+                print(" DOWN", base, str(e))
+
 
 # =========================
 # SCHEDULER
