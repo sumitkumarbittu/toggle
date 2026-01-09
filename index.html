@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Render Uptime</title>
+<style>
+body { background:#0b0f1a; color:white; font-family:Arial; padding:30px; }
+.card { background:#12182a; padding:14px; border-radius:8px; margin-bottom:10px; display:flex; justify-content:space-between; }
+.ok { color:#4cff4c; }
+.down { color:#ff4c4c; }
+</style>
+</head>
+
+<body>
+<h1>Render API Uptime</h1>
+<div id="list"></div>
+
+<script>
+const API_BASE = "https://YOUR_UPTIME_SERVICE.onrender.com";
+
+async function load() {
+  try {
+    const r = await fetch(API_BASE + "/health");
+    const data = await r.json();
+
+    const div = document.getElementById("list");
+    div.innerHTML = "";
+
+    for (const base in data.apis) {
+      const state = data.apis[base];
+      div.innerHTML += `
+        <div class="card">
+          <span>${base}/health</span>
+          <span class="${state}">${state}</span>
+        </div>
+      `;
+    }
+  } catch {
+    document.getElementById("list").innerHTML =
+      "<div class='card down'>Uptime service offline</div>";
+  }
+}
+
+load();
+setInterval(load, 5000);
+</script>
+</body>
+</html>
