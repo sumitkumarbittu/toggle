@@ -22,19 +22,6 @@ APIs = [
 LAST_PINGS = {}
 
 # =========================
-# FASTAPI
-# =========================
-
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# =========================
 # PING FUNCTION
 # =========================
 
@@ -56,16 +43,17 @@ scheduler = AsyncIOScheduler()
 scheduler.add_job(ping_all, "interval", minutes=PING_INTERVAL)
 
 # =========================
-# FASTAPI LIFESPAN (THIS FIXES RENDER)
+# FASTAPI LIFESPAN (RENDER SAFE)
 # =========================
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    scheduler.start()        # always starts
-    await ping_all()         # run once immediately on boot
+    scheduler.start()
+    await ping_all()   # run immediately on boot
     yield
     scheduler.shutdown()
 
+# ⚠️ DEFINE FASTAPI ONLY ONCE
 app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
