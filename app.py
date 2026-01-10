@@ -30,7 +30,8 @@ APIs = [
     "https://paydriveapi.onrender.com/health",
     "https://chat-d8ex.onrender.com/healthz",
     "https://paydrive-analytics.onrender.com/health",
-    "https://webda.onrender.com/health"
+    "https://webda.onrender.com/health",
+    "https://gform-36w5.onrender.com"
 ]
 
 LAST_PINGS = {}
