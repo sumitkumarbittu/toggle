@@ -31,7 +31,8 @@ APIs = [
     "https://paydriveanalytics.onrender.com/health",
     "https://paydrivechat.onrender.com/healthz",
     "https://db5-nhy1.onrender.com/health",
-    "https://db6-c4rn.onrender.com/health"
+    "https://db6-c4rn.onrender.com/health",
+    "https://db7.onrender.com/health"
     #"https://toggle-1811.onrender.com/health",
     #"https://paydriveapi.onrender.com/health",
     #"https://chat-d8ex.onrender.com/healthz",
