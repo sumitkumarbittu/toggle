@@ -33,8 +33,9 @@ APIs = [
     "https://db5-nhy1.onrender.com/health",
     "https://db6-c4rn.onrender.com/health",
     "https://db7.onrender.com/health",
-    "https://dbi-2xer.onrender.com",
-    "https://dbi2.onrender.com"
+    "https://dbi-2xer.onrender.com/health",
+    "https://dbi2.onrender.com/health",
+    "https://gform2.onrender.com/health"
     #"https://toggle-1811.onrender.com/health",
     #"https://paydriveapi.onrender.com/health",
     #"https://chat-d8ex.onrender.com/healthz",
