@@ -26,10 +26,10 @@ PING_INTERVAL = 10   # minutes
 
 # FULL HEALTH URLs (can be /health, /status, etc)
 APIs = [
-    #https://togglesk.onrender.com/health,
-    https://paydriveinsurance.onrender.com/health,
-    https://paydriveanalytics.onrender.com/health,
-    https://paydrivechat.onrender.com/healthz
+    "https://togglesk.onrender.com/health",
+    "https://paydriveinsurance.onrender.com/health",
+    "https://paydriveanalytics.onrender.com/health",
+    "https://paydrivechat.onrender.com/healthz"
     #"https://toggle-1811.onrender.com/health",
     #"https://paydriveapi.onrender.com/health",
     #"https://chat-d8ex.onrender.com/healthz",
