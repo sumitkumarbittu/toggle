@@ -26,13 +26,17 @@ PING_INTERVAL = 10   # minutes
 
 # FULL HEALTH URLs (can be /health, /status, etc)
 APIs = [
-    "https://toggle-1811.onrender.com/health",
-    "https://paydriveapi.onrender.com/health",
-    "https://chat-d8ex.onrender.com/healthz",
-    "https://paydrive-analytics.onrender.com/health",
-    "https://webda.onrender.com/health",
-    "https://gform-36w5.onrender.com/health",
-    "https://db-btl1.onrender.com/health"
+    https://deferferfref.onrender.com/health,
+    https://paydriveinsurance.onrender.com/health,
+    https://paydriveanalytics.onrender.com/health,
+    https://paydrivechat.onrender.com/healthz,
+    #"https://toggle-1811.onrender.com/health",
+    #"https://paydriveapi.onrender.com/health",
+    #"https://chat-d8ex.onrender.com/healthz",
+    #"https://paydrive-analytics.onrender.com/health",
+    #"https://webda.onrender.com/health",
+    #"https://gform-36w5.onrender.com/health",
+    #"https://db-btl1.onrender.com/health"
 ]
 
 LAST_PINGS = {}
