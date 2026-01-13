@@ -26,7 +26,7 @@ PING_INTERVAL = 10   # minutes
 
 # FULL HEALTH URLs (can be /health, /status, etc)
 APIs = [
-    https://deferferfref.onrender.com/health,
+    https://togglesk.onrender.com/health,
     https://paydriveinsurance.onrender.com/health,
     https://paydriveanalytics.onrender.com/health,
     https://paydrivechat.onrender.com/healthz,
