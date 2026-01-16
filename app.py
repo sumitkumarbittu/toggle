@@ -36,7 +36,14 @@ APIs = [
     "https://dbi-2xer.onrender.com/health",
     "https://dbi2.onrender.com/health",
     "https://gform2.onrender.com/health",
-    "https://tracksk.onrender.com/health"
+    "https://tracksk.onrender.com/health",
+    "https://chatapi101.onrender.com/health",
+    "https://chatapi102.onrender.com/health",
+    "https://chatapi103.onrender.com/health",
+    "https://chatapi104.onrender.com/health"
+]
+
+
     #"https://toggle-1811.onrender.com/health",
     #"https://paydriveapi.onrender.com/health",
     #"https://chat-d8ex.onrender.com/healthz",
@@ -44,7 +51,7 @@ APIs = [
     #"https://webda.onrender.com/health",
     #"https://gform-36w5.onrender.com/health",
     #"https://db-btl1.onrender.com/health"
-]
+
 
 LAST_PINGS = {}
 
