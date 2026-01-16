@@ -40,7 +40,8 @@ APIs = [
     "https://chatapi101.onrender.com/health",
     "https://chatapi102.onrender.com/health",
     "https://chatapi103.onrender.com/health",
-    "https://chatapi104.onrender.com/health"
+    "https://chatapi104.onrender.com/health",
+    "https://gitlogin-b4bd.onrender.com/health"
 ]
 
 
