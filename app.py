@@ -42,7 +42,11 @@ APIs = [
     "https://chatapi103.onrender.com/health",
     "https://chatapi104.onrender.com/health",
     "https://gitlogin-b4bd.onrender.com/health",
-    "https://geminidexter.onrender.com/health"
+    "https://geminidexter.onrender.com/health",
+    "https://googlecalendar-nm3c.onrender.com/health",
+    "https://whisperdexter.onrender.com/health",
+    "https://whispergpt1.onrender.com/health",
+    "https://whispergpt2.onrender.com/health"
 ]
 
 
