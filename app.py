@@ -46,7 +46,8 @@ APIs = [
     "https://googlecalendar-nm3c.onrender.com/health",
     "https://whisperdexter.onrender.com/health",
     "https://whispergpt1.onrender.com/health",
-    "https://whispergpt2.onrender.com/health"
+    "https://whispergpt2.onrender.com/health",
+    "https://indusdriveform.onrender.com/health"
 ]
 
 
