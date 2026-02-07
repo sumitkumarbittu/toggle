@@ -47,7 +47,8 @@ APIs = [
     "https://whisperdexter.onrender.com/health",
     "https://whispergpt1.onrender.com/health",
     "https://whispergpt2.onrender.com/health",
-    "https://indusdriveform.onrender.com/health"
+    "https://indusdriveform.onrender.com/health",
+    "https://co2026.onrender.com/health"
 ]
 
 
